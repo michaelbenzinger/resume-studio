@@ -1,15 +1,15 @@
-export default function Preview(props) {
-  const { info } = props;
+import PersonalInfo from './PersonalInfo';
+import WorkHistory from './WorkHistory';
+import Skills from './Skills';
 
-  const contactProps = [info.website, info.email, info.phone].filter(
-    item => item
-  );
+export default function Preview(props) {
+  const { personalInfo, workHistory, skills, education } = props;
 
   return (
-    <div className="mt-4 preview-window">
-      <h2>{info.firstName + ' ' + info.lastName}</h2>
-      <div>{info.tagline}</div>
-      <div>{contactProps.join(' • ')}</div>
+    <div className="preview-window">
+      <PersonalInfo personalInfo={personalInfo} />
+      <WorkHistory workHistory={workHistory} />
+      <Skills skills={skills} />
     </div>
   );
 }
