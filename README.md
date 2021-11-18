@@ -1,70 +1,58 @@
-# Getting Started with Create React App
+# Resume Studio
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A Resume Generator built with React and styled with the help of Reactstrap. Add all relevant information, customize preferences, and print formatted resume to paper or PDF.
 
-## Available Scripts
+[📝 Live Preview](https://michaelbenzinger.github.io/resume-studio/)
 
-In the project directory, you can run:
+<hr>
 
-### `npm start`
+![image](https://user-images.githubusercontent.com/85148502/142471483-873cb154-3fb0-49e7-ac7d-c8625bc88d76.png)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Challenges Presented
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+There were a couple of key challenges that I set out to overcome while building this app.
 
-### `npm test`
+### 1. Clean styling even in the absence of some information
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+If the user chose to delete an entire category, the Resume still needed to look complete. I achieved this by using conditional rendering in React to only render the sections of the preview if the section contained data to display. In the screenshot below, Work History is hidden from the print preview.
 
-### `npm run build`
+![image](https://user-images.githubusercontent.com/85148502/142472179-850369ab-646e-4d25-bab8-cc48f522cc13.png)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 2. Pagination for Work History and Education
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Because I don't know in advance how many jobs or schools the user will add to their resume, I had to give the user the option to add or delete as many entries as they liked. In the image above, you'll see the Previous, Next, and Delete Job buttons have been conditionally disabled, because the user is on a blank page 1.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+In the image below, you'll see how I approached this in the code. I added ```page``` to ```WorkHistoryForm```'s state using the ```useState``` React Hook. When the user clicks "Next Page", if there is no entry in the next index of the ```workHistoryTemp``` array, it adds a blank entry before incrementing ```page``` by 1.
 
-### `npm run eject`
+![image](https://user-images.githubusercontent.com/85148502/142473271-474f0530-17f2-47fb-8220-aa8edbf67f8e.png)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+In the next image, you can see how I use the changing ```page``` in state to populate the fields of the form each time ```WorkHistoryForm``` re-renders.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+![image](https://user-images.githubusercontent.com/85148502/142473671-6b961e73-1938-410b-97b5-ac20a0361687.png)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### 3. Handling Which Form to Display
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+![image](https://user-images.githubusercontent.com/85148502/142474526-46baeb61-1184-45b5-8288-0ea21fc16873.png)
 
-## Learn More
+Clicking Submit on any form updates state in ```App.js```, which triggers the ```useEffect``` hook to call ```setActiveForm(null)```. This hides the active form and unhides the buttons. Because of this, I use temporary variables such as ```workHistoryTemp``` to handle ```onChange``` events and state changes within each form. ```setWorkHistory``` only gets called when the user clicks the Submit button.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Below, you'll see conditional rendering using a ```switch/case``` statement in ```UpdateForms.js```, which acts as a container for each form. If ```activeForm``` is set to ```null```, an empty ```<div>``` is displayed instead of a form.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+![image](https://user-images.githubusercontent.com/85148502/142475329-df9b2185-6ca0-4c72-84d3-79264f46bc36.png)
 
-### Code Splitting
+When the user clicks "Update Personal Info", ```setActiveForm(PersonalInfoForm)``` is called, which conditionally renders the form and hides the buttons.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+![image](https://user-images.githubusercontent.com/85148502/142475498-316039ba-e19b-40eb-912c-b21ca96be078.png)
 
-### Analyzing the Bundle Size
+<hr>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+I also gave the user a selection of professional-looking sans-serif fonts, imported from Google Fonts.
 
-### Making a Progressive Web App
+![image](https://user-images.githubusercontent.com/85148502/142476015-467c21f0-6339-4754-abb8-725bbb2b22e4.png)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## Printing
 
-### Advanced Configuration
+It's important for the user to be able to print or export their Resume! The Print option in the header calls ```window.print()``` and makes use of a ```@media print``` rule in the stylesheet to scale up the font size and hide everything except the contents of the preview window.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+![image](https://user-images.githubusercontent.com/85148502/142476453-377fef60-ed22-499c-b81d-2d983f3b26a4.png)
 
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
