@@ -25,7 +25,7 @@ export default function WorkHistory(props) {
               )}
             </div>
             <h4>{job.employer}</h4>
-            <div>{job.description}</div>
+            <div className="pre-wrap">{job.description}</div>
           </div>
         ))}
       </div>

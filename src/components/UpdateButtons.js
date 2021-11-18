@@ -58,6 +58,16 @@ export default function UpdateButtons(props) {
           >
             Update Education
           </Button>
+          <Button
+            className="mb-2 mt-4"
+            onClick={() => {
+              setActiveForm('Preferences');
+            }}
+            block
+            color="secondary"
+          >
+            Preferences
+          </Button>
         </div>
       ) : null}
     </div>

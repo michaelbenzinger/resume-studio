@@ -9,46 +9,69 @@ import { Container, Row, Col } from 'reactstrap';
 
 function App() {
   const [personalInfo, setPersonalInfo] = useState({
-    firstName: 'Michael',
-    lastName: 'Benzinger',
-    tagline: 'Frontend Web Developer',
-    email: 'michael@benzinger.co',
-    phone: '(111) 222-3333',
-    website: 'http://benzinger.co',
+    firstName: 'Shaggy',
+    lastName: 'Rogers',
+    tagline: 'Detective and Cowardly Slacker',
+    email: 'shaggy@scoobydoo.com',
+    phone: '(903) 412-3375',
+    website: '',
     joinChar: ' • ',
   });
 
   const [workHistory, setWorkHistory] = useState([
     {
-      employer: 'AllState Corporation',
-      position: 'Web Developer',
-      startDate: 'March 2021',
+      employer: 'Mystery Incorporated',
+      position: 'Co-Lead Detective',
+      startDate: 'September 1969',
       endDate: 'Current',
       description:
-        'Developed novel user experiences for various web applications',
+        'Useful in ferreting out monsters and ghosts\nOccasionally has a running speed faster than Scooby',
+    },
+    {
+      employer: 'The Daily Babbler',
+      position: 'Junior Paper Boy',
+      startDate: 'September 1988',
+      endDate: 'July 1989',
+      description:
+        'Got up early (sometimes) to deliver the daily paper route\nAmbushed by a green ghost who stole the bike',
     },
   ]);
 
   const [skills, setSkills] = useState({
     title: 'Skills',
-    category1: 'Technical',
-    skills1: 'Microsoft Office, Microsoft Excel\nHTML, CSS, JavaScript',
+    category1: 'Skills and Abilities',
+    skills1: `Acting as live bait for traps and providing necessary distractions
+Unique abilities in disguise and ventriliquism
+Flying planes and riding bikes
+Playing the guitar and eating lots of snacks`,
   });
 
-  const [education, setEducation] = useState({});
+  const [education, setEducation] = useState([
+    {
+      school: 'Coolsville High School',
+      startDate: 'September 1988',
+      endDate: 'May 1992',
+      description:
+        'The best gymnast in school, according to Daphne Blake\nMotivated and encouraged by Scooby Snacks',
+    },
+  ]);
+
+  const [preferences, setPreferences] = useState({
+    font: 'Default',
+  });
 
   const [activeForm, setActiveForm] = useState(null);
 
   useEffect(() => {
     setActiveForm(null);
-  }, [personalInfo, workHistory, skills, education]);
+  }, [personalInfo, workHistory, skills, education, preferences]);
 
   return (
     <div className="App">
       <Navigation title="Resume Studio" />
       <Container className="mt-4">
-        <Row sm="1" md="2">
-          <Col className="mb-4">
+        <Row xs="1" md="2">
+          <Col className="mb-4 button-col">
             <UpdateButtons
               activeForm={activeForm}
               setActiveForm={setActiveForm}
@@ -62,10 +85,12 @@ function App() {
               setSkills={setSkills}
               education={education}
               setEducation={setEducation}
+              preferences={preferences}
+              setPreferences={setPreferences}
               activeForm={activeForm}
             />
           </Col>
-          <Col>
+          <Col className="preview-col">
             <Preview
               personalInfo={personalInfo}
               workHistory={workHistory}

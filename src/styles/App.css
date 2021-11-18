@@ -1,13 +1,13 @@
 :root {
   --animation-length: 0.3s;
+  --prev-w-shrink: 0.7;
 }
 
 .preview-window {
-  font-size: 10px;
   padding: 1rem;
   background-color: white;
   border: 1px solid #555;
-  min-height: 40rem;
+  min-height: calc(42rem + 10vw);
   position: relative;
   z-index: 3;
 }
@@ -22,30 +22,39 @@
 .preview-window p,
 .preview-window div {
   margin-bottom: 0em;
+  line-height: 1.3;
 }
 .preview-window h1 {
-  font-size: 16px;
+  font-size: calc(1.6rem * var(--prev-w-shrink));
 }
 .preview-window h2 {
-  font-size: 14px;
+  font-size: calc(1.4rem * var(--prev-w-shrink));
 }
 .preview-window h3 {
-  font-size: 13px;
+  font-size: calc(1.3rem * var(--prev-w-shrink));
 }
 .preview-window h4 {
-  font-size: 12px;
+  font-size: calc(1.2rem * var(--prev-w-shrink));
 }
 .preview-window h5 {
-  font-size: 11px;
+  font-size: calc(1.1rem * var(--prev-w-shrink));
+  font-weight: 400;
 }
 .preview-window h6 {
-  font-size: 10px;
+  font-size: calc(1rem * var(--prev-w-shrink));
 }
 .preview-window p {
-  font-size: 12px;
+  font-size: calc(1.2rem * var(--prev-w-shrink));
 }
 .preview-window div {
-  font-size: 12px;
+  font-size: calc(1.2rem * var(--prev-w-shrink));
+}
+
+.nav-link {
+  cursor: pointer;
+}
+.nav-link i {
+  margin-right: 0.3rem;
 }
 
 .resume-form {
@@ -92,4 +101,42 @@
 
 .skills-skills {
   line-height: 1.3;
+}
+
+@media print {
+  :root {
+    --prev-w-shrink: 0.78;
+  }
+  .navbar {
+    display: none !important;
+  }
+  button.btn {
+    display: none !important;
+  }
+  .button-col {
+    display: none !important;
+  }
+  .preview-col {
+    width: 100% !important;
+  }
+  .preview-window {
+    padding: 0 1rem;
+    border: none;
+  }
+  .preview-window hr {
+    border-top: 1px solid #555;
+  }
+}
+
+@media screen and (max-width: 767.98px) {
+  @keyframes fade-up {
+    0% {
+      opacity: 0;
+      transform: translateY(5vw);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 }

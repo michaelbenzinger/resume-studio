@@ -1,4 +1,5 @@
-import React from 'react';
+import { useState } from 'react';
+import { isEmpty } from '../WorkHistory';
 import {
   Row,
   Col,
@@ -10,67 +11,159 @@ import {
   Button,
 } from 'reactstrap';
 
-export default function PersonalInfoForm(props) {
-  const { info, setInfo } = props;
+export default function EducationForm(props) {
+  const { education, setEducation } = props;
+
+  const [educationTemp, setEducationTemp] = useState(
+    JSON.parse(JSON.stringify(education))
+  );
+
+  const [page, setPage] = useState(0);
+
+  const blankProgram = {
+    school: '',
+    degree: '',
+    startDate: '',
+    endDate: '',
+    description: '',
+  };
 
   const onSubmitForm = e => {
     e.preventDefault();
-    const { firstName, lastName, tagline, email, phone, website } = e.target;
-    setInfo({
-      firstName: firstName.value,
-      lastName: lastName.value,
-      tagline: tagline.value,
-      email: email.value,
-      phone: phone.value,
-      website: website.value,
-    });
+    const filteredEducation = educationTemp.filter(
+      program =>
+        program.school ||
+        program.degree ||
+        program.startDate ||
+        program.endDate ||
+        program.description
+    );
+    if (filteredEducation.length === 0) {
+      filteredEducation.push(blankProgram);
+    }
+    setEducation(filteredEducation);
+  };
+
+  const nextPage = () => {
+    if (!educationTemp[page + 1]) {
+      setEducationTemp([...educationTemp, blankProgram]);
+    }
+    setPage(page + 1);
+  };
+
+  const prevPage = () => {
+    if (page !== 0) {
+      setPage(page - 1);
+    }
+  };
+
+  const deletePage = () => {
+    const newEducationTemp = [];
+    for (let i = 0; i < educationTemp.length; i++) {
+      if (i !== page) {
+        newEducationTemp.push(educationTemp[i]);
+      }
+    }
+    if (newEducationTemp[0] === undefined) {
+      newEducationTemp.push(blankProgram);
+    }
+    setEducationTemp(newEducationTemp);
+    if (page > 0) {
+      setPage(page - 1);
+    }
+  };
+
+  const handleChange = e => {
+    const newEducation = JSON.parse(JSON.stringify(educationTemp));
+    newEducation[page][e.target.name] = e.target.value;
+    setEducationTemp(newEducation);
   };
 
   return (
-    <div className="personal-info-form resume-form">
-      <h3>Peronsal Info</h3>
+    <div className="education-form resume-form">
+      <h3>Education</h3>
       <Form onSubmit={onSubmitForm}>
-        <Label for="name">Full Name</Label>
+        <FormText>Program {page + 1}</FormText>
+        <FormGroup>
+          <Label for="school">School/Organization</Label>
+          <Input
+            name="school"
+            type="text"
+            onChange={handleChange}
+            value={educationTemp[page].school || ''}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label for="degree">Degree/Certification</Label>
+          <Input
+            name="degree"
+            type="text"
+            onChange={handleChange}
+            value={educationTemp[page].degree || ''}
+          />
+        </FormGroup>
         <Row xs="1" sm="2">
           <Col>
             <FormGroup>
+              <Label for="startDate">Start Date</Label>
               <Input
-                name="firstName"
+                name="startDate"
                 type="text"
-                value={info.firstName || null}
+                onChange={handleChange}
+                value={educationTemp[page].startDate || ''}
               />
-              <FormText>First</FormText>
             </FormGroup>
           </Col>
           <Col>
             <FormGroup>
+              <Label for="endDate">End Date</Label>
               <Input
-                name="lastName"
+                name="endDate"
                 type="text"
-                value={info.lastName || null}
+                onChange={handleChange}
+                value={educationTemp[page].endDate || ''}
               />
-              <FormText>Last</FormText>
             </FormGroup>
           </Col>
         </Row>
         <FormGroup>
-          <Label for="tagline">Tagline</Label>
-          <Input name="tagline" type="textarea" value={info.tagline || null} />
+          <Label for="description">Description</Label>
+          <Input
+            type="textarea"
+            name="description"
+            onChange={handleChange}
+            value={educationTemp[page].description || ''}
+          />
         </FormGroup>
-        <FormGroup>
-          <Label for="email">Email</Label>
-          <Input name="email" type="text" value={info.email || null} />
-        </FormGroup>
-        <FormGroup>
-          <Label for="phone">Phone</Label>
-          <Input name="phone" type="text" value={info.phone || null} />
-        </FormGroup>
-        <FormGroup>
-          <Label for="website">Website</Label>
-          <Input name="website" type="text" value={info.website || null} />
-        </FormGroup>
-        <Button type="submit" color="primary">
-          Update
+        <Button
+          disabled={!page}
+          onClick={prevPage}
+          type="button"
+          color="dark"
+          className="me-2 mb-2"
+        >
+          Previous Program
+        </Button>
+        <Button
+          onClick={nextPage}
+          disabled={isEmpty(educationTemp[page])}
+          type="button"
+          color="dark"
+          className="me-2 mb-2"
+        >
+          Next Program
+        </Button>
+        <Button className="me-2 mb-2" type="submit" color="primary">
+          Submit
+        </Button>
+        <Button
+          onClick={deletePage}
+          disabled={isEmpty(educationTemp[page])}
+          type="button"
+          color="danger"
+          className="me-2 mb-2"
+        >
+          Delete Program
         </Button>
       </Form>
     </div>

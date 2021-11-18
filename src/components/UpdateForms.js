@@ -2,6 +2,7 @@ import PersonalInfoForm from './forms/PersonalInfoForm';
 import WorkHistoryForm from './forms/WorkHistoryForm';
 import SkillsForm from './forms/SkillsForm';
 import EducationForm from './forms/EducationForm';
+import Preferences from './forms/Preferences';
 
 export default function UpdateForms(props) {
   const {
@@ -12,6 +13,8 @@ export default function UpdateForms(props) {
     skills,
     setSkills,
     education,
+    preferences,
+    setPreferences,
     setEducation,
     activeForm,
   } = props;
@@ -36,6 +39,13 @@ export default function UpdateForms(props) {
     case 'EducationForm':
       return (
         <EducationForm education={education} setEducation={setEducation} />
+      );
+    case 'Preferences':
+      return (
+        <Preferences
+          preferences={preferences}
+          setPreferences={setPreferences}
+        />
       );
     default:
       return <div></div>;
