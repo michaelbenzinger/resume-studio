@@ -4,9 +4,7 @@ export default function Navigation(props) {
   const { title } = props;
   return (
     <Navbar color="dark" dark expand="xs" container="sm">
-      <NavbarBrand className="me-auto" href="/">
-        {title}
-      </NavbarBrand>
+      <NavbarBrand className="me-auto">{title}</NavbarBrand>
       <Nav navbar>
         <NavItem>
           <NavLink
